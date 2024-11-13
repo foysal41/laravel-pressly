@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\CategoryController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,17 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('admin.dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+/*
+Route::resource posts and categories অংশগুলো posts এবং categories এর জন্য সম্পূর্ণ CRUD অপারেশন সেটআপ হবে
+*/
+
+Route::resource('/posts', PostController::class)->middleware('auth');
+Route::resource('/categories' , CategoryController::class)->middleware('auth');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
